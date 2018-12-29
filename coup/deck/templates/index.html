@@ -23,6 +23,7 @@
           {% for card in user.card_set.all %}
           <div class="col-sm">
             <h3>{{ card.get_suit_display }}</h3>
+            {% if not card.revealed %}
             <form class="form" method="post" action="{% url 'replace_card' %}">
               {% csrf_token %}
               <input name="suit" type="hidden" value="{{ card.suit }}">
@@ -33,6 +34,7 @@
               <input name="suit" type="hidden" value="{{ card.suit }}">
               <button type="submit" class="btn btn-fill">Reveal Card</button>
             </form>
+            {% endif %}
           </div>
           {% endfor %}
         </div>
@@ -62,6 +64,12 @@
             {% endfor %}
             </ul>
           </div>
+        </div>
+        <div class="row">
+          <form class="form" method="post" action="{% url 'new_game' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-fill btn-lg">Play new game</button>
+          </form>
         </div>
       </div>
       {% endif %}

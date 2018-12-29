@@ -61,3 +61,11 @@ def reveal_card(request):
         card_to_reveal.revealed = True
         card_to_reveal.save()
     return redirect('index')
+
+
+def new_game(request):
+    if request.method == 'POST':
+        current_deck = Deck.objects.first()
+        current_deck.delete()
+        Deck.create_instance()
+    return redirect('index')
