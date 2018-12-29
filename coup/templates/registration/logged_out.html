@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="page-header header-filter" style="background-image: url('/assets/img/bg7.jpg'); background-size: cover; background-position: top center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+          <div class="card card-login">
+              <div class="card-header card-header-primary text-center">
+                <h4 class="card-title">Logged out!</h4>
+              </div>
+              <div class="footer text-center">
+                <a href="{% url 'login'%}" class="btn btn-primary btn-link btn-wd btn-lg">Click here to login again.</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

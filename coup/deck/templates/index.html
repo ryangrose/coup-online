@@ -1,0 +1,70 @@
+{% extends 'base_generic.html' %}
+
+
+{% block content %}
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('assets/img/bg3.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+          <div class="brand text-center">
+            <h1>Ermvengers Coup</h1>
+            <h3 class="title text-center">An online deck</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main main-raised">
+    <div class="container">
+      {% if user.is_authenticated %}
+      <div class="section text-center">
+        <h2 class="title">Your hand:</h2>
+        <div class="row">
+          {% for card in user.card_set.all %}
+          <div class="col-sm">
+            <h3>{{ card.get_suit_display }}</h3>
+            <form class="form" method="post" action="{% url 'replace_card' %}">
+              {% csrf_token %}
+              <input name="suit" type="hidden" value="{{ card.suit }}">
+              <button type="submit" class="btn btn-fill">Replace Card</button>
+            </form>
+            <form class="form" method="post" action="{% url 'reveal_card' %}">
+              {% csrf_token %}
+              <input name="suit" type="hidden" value="{{ card.suit }}">
+              <button type="submit" class="btn btn-fill">Reveal Card</button>
+            </form>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="row">
+          {% if user.card_set.all.count < 2 %}
+          <div class="container">
+            <a href="{% url 'new_card' %}" class="btn btn-primary btn-lg">Draw New Card</a>
+          </div>
+          {% endif %}
+        </div>
+        <div class="row">
+          <div class="card">
+            <img class="card-img-top" src="http://4.bp.blogspot.com/-TyphjUoZT6s/VGjpjbsv_nI/AAAAAAAAGXY/lBHvN7SpSdA/s1600/coup%2Bactions.jpg" alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Reference guide</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card card-nav-tabs">
+            <div class="card-header card-header-danger">
+              <h2>Revealed</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+            {% for card in revealed %}
+            <li class="list-group-item"> <h4>{{card.user}} : {{ card.get_suit_display }}</h4> </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
